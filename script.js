@@ -44,10 +44,52 @@ var currentQuestion = quizQuestions.qNas[i].question;
 var currentAnswers = quizQuestions.qNas[i].answers;
 var allQuestions = quizQuestions.qNas;
 var correctAnswer = quizQuestions.qNas[i].correct;
+var currentScore = quizQuestions.score;
 var nextQuestion = quizQuestions.questionNumber;
 
 
+function showAnswers() {     
+  
 
+    j = 0;
+
+    for ( let j = 0; j < quizQuestions.qNas[i].answers.length; j++) {
+        var liAnswers = document.createElement("li");
+        liAnswers.className = "ansClass";
+        liAnswers.textContent = quizQuestions.qNas[i].answers[j];
+
+        
+        aContainer.appendChild(liAnswers);
+
+        liAnswers.addEventListener("click",function(){
+            if( this.innerHTML !== correctAnswer){
+                timeLeft = timeLeft-5;
+                i++;
+                updateQuestion();
+                
+            }
+            else{
+                currentScore++;
+                i++;
+                updateQuestion();
+            }
+        });
+    };
+}
+
+function updateQuestion(){
+    var oldQuestions = document.querySelectorAll(".ansClass")
+    //console.log(oldQuestions.firstChild);
+    //while (oldQuestions.firstChild) {
+     //   oldQuestions.removeChild(oldQuestions.firstChild);
+   // }
+
+
+for (let i = 0; i < oldQuestions.length; i++){
+        oldQuestions[i].remove();
+    }
+    showAnswers();
+}
 
 
 
@@ -68,10 +110,7 @@ function startQuiz() {
   
     }, 1000);
 
-    //grab section to show questions
-
-    //function to show quiz questions
-
+   
     function showQuestion(){
         var liQuestion = document.createElement("li");
 
@@ -79,53 +118,19 @@ function startQuiz() {
             liQuestion.innerHTML = currentQuestion;
             
             qContainer.append(liQuestion);
-            console.log(liQuestion);
-        }
-
-      
-        
+        }  
     }
 
 
 
-    function showAnswers() {     
-      
 
 
-        for ( let i = 0; i < currentAnswers.length; i++) {
-            var liAnswers = document.createElement("li");
-            liAnswers.textContent = currentAnswers[i];
-            
-            aContainer.appendChild(liAnswers);
-
-              
-            liAnswers.addEventListener("click",function(){
-                if( this.innerHTML == correctAnswer){
-                    nextQuestion++;
-                    //i = nextQuestion;
-                    //showAnswers();
-
-                };
-                
-                //showAnswers();
-                console.log(i);
-
-            });
-        };
-    };
-
-
-        showQuestion();
-        showAnswers();
-
-    }
+    showAnswers();
+    showQuestion();
+};
 
     
 
 startButton.addEventListener("click", function(){
     startQuiz();
-})
-
-
-
-
+});
