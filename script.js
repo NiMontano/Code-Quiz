@@ -1,7 +1,7 @@
 var timeEl = document.querySelector(".time");
 var startButton = document.querySelector(".start-btn");
 var scoreEl = document.querySelector(".score");
-var timeLeft = 5;
+var timeLeft = 10;
 
 var quizQuestions = { 
     qNas: [
@@ -40,6 +40,8 @@ var oldAnswers = document.querySelectorAll(".ansClass")
 
 var liAnswers = document.createElement("li");
 var theAnswer = document.getElementsByName("li");
+var endMessage = document.createElement("h2");
+var endScore = document.createElement("h3");
 //var listAnswers = document.createTextNode(quizQuestions.answers[i])
 var currentQuestion = quizQuestions.qNas[i].question;
 
@@ -52,13 +54,17 @@ var nextQuestion = quizQuestions.questionNumber;
 function startQuiz() {
     var startButton = document.querySelector(".start-btn")
     startButton.style.display = "none";
-
+    console.log(endMessage);
+    endMessage.remove();
+    endScore.remove();
+    timeLeft = 10;
+    console.log(quizQuestions.qNas[i]);
 
     var timerInterval = setInterval(function() {
       timeLeft--;
       timeEl.textContent = "Time : " + timeLeft ;
   
-      if(timeLeft === 0) {
+      if(timeLeft <= 0) {
         clearInterval(timerInterval);
         endGame();
       }
@@ -96,12 +102,16 @@ function showAnswers() {
                 showQuestion();
             }
         });
+        //if ( i > quizQuestions.qNas[i].answers.length){
+          //  currentScore++;
+            //break;
+        //}
     };
 }
 
 function showScore(){
     console.log(currentScore);
-    scoreEl.textContent = currentScore;
+    scoreEl.textContent = "Score: " + currentScore;
 };
 
 function updateAnswers(){
@@ -146,18 +156,25 @@ function updateQuestion(){
 }
 
 function endGame(){
-    var endMessage = document.createElement("h2");
-    var endScore = document.createElement("h3");
-    
+   
+   i = 0; 
+   j = 0;
+
+    startButton.style.display = "block";
+
     endMessage.textContent = "Game Over 🎮";
     endScore.textContent = "Total Score: " + currentScore;
 
     qContainer.append(endMessage);
     qContainer.append(endScore);
+
+    currentScore = 0;
+
     
     updateQuestion();
     clearAnswers();
-    console.log("game over!");
+    console.log(i);
+
 }
 
 startButton.addEventListener("click", function(){
