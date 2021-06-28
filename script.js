@@ -1,7 +1,7 @@
 var timeEl = document.querySelector(".time");
-var startButton = document.querySelector(".start-btn")
-
-var timeLeft = 80;
+var startButton = document.querySelector(".start-btn");
+var scoreEl = document.querySelector(".score");
+var timeLeft = 5;
 
 var quizQuestions = { 
     qNas: [
@@ -35,6 +35,8 @@ i = 0;
 
 var qContainer = document.querySelector(".the-question");
 var aContainer = document.querySelector(".the-answers");
+var oldAnswers = document.querySelectorAll(".ansClass")
+
 
 var liAnswers = document.createElement("li");
 var theAnswer = document.getElementsByName("li");
@@ -58,7 +60,7 @@ function startQuiz() {
   
       if(timeLeft === 0) {
         clearInterval(timerInterval);
-       // sendMessage();
+        endGame();
       }
   
     }, 1000);
@@ -75,10 +77,8 @@ function showAnswers() {
         var liAnswers = document.createElement("li");
         liAnswers.className = "ansClass";
         liAnswers.textContent = quizQuestions.qNas[i].answers[j];
-        
     
         aContainer.appendChild(liAnswers);
-        console.log(currentScore); 
         liAnswers.addEventListener("click",function(){
             if( this.innerHTML !== correctAnswer){
                 timeLeft = timeLeft-5;
@@ -86,8 +86,8 @@ function showAnswers() {
                 updateAnswers();
                 updateQuestion();
                 showQuestion();
-                
             }
+
             else{
                 currentScore++;
                 i++;
@@ -99,6 +99,11 @@ function showAnswers() {
     };
 }
 
+function showScore(){
+    console.log(currentScore);
+    scoreEl.textContent = currentScore;
+};
+
 function updateAnswers(){
     var oldAnswers = document.querySelectorAll(".ansClass")
 
@@ -108,10 +113,18 @@ for (let i = 0; i < oldAnswers.length; i++){
     showAnswers();
 }
 
+function clearAnswers(){
+    var oldAnswers = document.querySelectorAll(".ansClass")
+
+for (let i = 0; i < oldAnswers.length; i++){
+        oldAnswers[i].remove();
+    }
+}
+
 
 function showQuestion(){
-    var liQuestion = document.createElement("li");
-    console.log(i);
+    var liQuestion = document.createElement("h2");
+    showScore();
     console.log(quizQuestions.qNas);
     var currentQuestion = quizQuestions.qNas[i].question;
     liQuestion.className = "questClass";
@@ -124,8 +137,6 @@ function showQuestion(){
 }
 
 function updateQuestion(){
-    var selectedAnswer = document.querySelectorAll(".ansClass");
-
     oldQuestion = document.querySelector(".questClass");
 
     console.log(liAnswers);
@@ -134,6 +145,20 @@ function updateQuestion(){
     oldQuestion.remove();
 }
 
+function endGame(){
+    var endMessage = document.createElement("h2");
+    var endScore = document.createElement("h3");
+    
+    endMessage.textContent = "Game Over 🎮";
+    endScore.textContent = "Total Score: " + currentScore;
+
+    qContainer.append(endMessage);
+    qContainer.append(endScore);
+    
+    updateQuestion();
+    clearAnswers();
+    console.log("game over!");
+}
 
 startButton.addEventListener("click", function(){
     startQuiz();
