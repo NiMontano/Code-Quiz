@@ -39,6 +39,11 @@ var quizQuestions = {
 
 i = 0;
 
+var saveForm = document.createElement("form");
+   saveForm.setAttribute("method", "post");
+   
+   var submitName = document.createElement("input");
+
 var timeEl = document.querySelector(".time");
 var startButton = document.querySelector(".start-btn");
 var scoreEl = document.querySelector(".score");
@@ -68,6 +73,10 @@ function startQuiz() {
     startButton.style.display = "none";
     endMessage.remove();
     endScore.remove();
+    console.log(submitName);
+    //submitName.setAttribute("type", "hidden");
+
+    
     timeLeft = 10;
     var timerInterval = setInterval(function() {
       timeLeft--;
@@ -183,14 +192,39 @@ function endGame(){
    i = 0; 
    j = 0;
 
-    startButton.style.display = "block";
+   var saveForm = document.createElement("form");
+   saveForm.setAttribute("method", "post");
+   //saveForm.setAttribute("action", "submit.php")
+
+   var initials = document.createElement("input");
+   initials.setAttribute("type", "text");
+   initials.setAttribute("name", "initials");
+   initials.setAttribute("placeholder", "Initals");
+
+   var submitName = document.createElement("input");
+   submitName.setAttribute("type", "submit");
+   submitName.setAttribute("value", "submit");
+
+   var saveSection = document.querySelector("submit-score")
+
+   saveForm.append(initials);
+   saveForm.append(submitName);
+   //ssaveSection.append(saveForm);
+   console.log(submitName);
+
+   document.querySelector("main").appendChild(saveForm);
+
 
     endMessage.textContent = "Game Over 🎮";
     endScore.textContent = "Total Score: " + currentScore;
 
     qContainer.append(endMessage);
     qContainer.append(endScore);
-
+    //show section to save name and score
+    
+    submitName.addEventListener("click", function(){
+        submitName.style.display = "none";
+    })
     currentScore = 0;
 
     clearQuestion();
@@ -200,4 +234,6 @@ function endGame(){
 
 startButton.addEventListener("click", function(){
     startQuiz();
+    //submitName.style.display = "none";
+
 });
