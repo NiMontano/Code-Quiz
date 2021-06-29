@@ -39,6 +39,8 @@ var quizQuestions = {
 
 i = 0;
 
+myStorage = window.localStorage;
+
 var saveForm = document.createElement("form");
    saveForm.setAttribute("method", "post");
    
@@ -83,6 +85,7 @@ function startQuiz() {
       timeEl.textContent = "Time : " + timeLeft ;
   
       if(timeLeft <= 0) {
+        timeLeft = 0;
         clearInterval(timerInterval);
         endGame();
       }
@@ -193,8 +196,9 @@ function endGame(){
    j = 0;
 
    var saveForm = document.createElement("form");
-   saveForm.setAttribute("method", "post");
+   //saveForm.setAttribute("method", "post");
    //saveForm.setAttribute("action", "submit.php")
+   console.log(saveForm);
 
    var initials = document.createElement("input");
    initials.setAttribute("type", "text");
@@ -202,10 +206,10 @@ function endGame(){
    initials.setAttribute("placeholder", "Initals");
 
    var submitName = document.createElement("input");
-   submitName.setAttribute("type", "submit");
-   submitName.setAttribute("value", "submit");
+    submitName.setAttribute("type", "submit");
+    //saveForm.setAttribute("onsubmit", "return false");
 
-   var saveSection = document.querySelector("submit-score")
+   //submitName.setAttribute("value", "submit");
 
    saveForm.append(initials);
    saveForm.append(submitName);
@@ -221,19 +225,25 @@ function endGame(){
     qContainer.append(endMessage);
     qContainer.append(endScore);
     //show section to save name and score
+
+    console.log(currentScore)
     
     submitName.addEventListener("click", function(){
-        submitName.style.display = "none";
+       saveForm.style.display = "none";
+       myStorage.setItem(initials.value, currentScore);
+        console.log(initials.value);
     })
-    currentScore = 0;
+    
 
     clearQuestion();
     clearAnswers();
-    console.log(i);
+    //console.log(i);
 }
 
 startButton.addEventListener("click", function(){
     startQuiz();
+    currentScore = 0;
+
     //submitName.style.display = "none";
 
 });
