@@ -40,6 +40,8 @@ var quizQuestions = {
 i = 0;
 
 myStorage = window.localStorage;
+var stringNm = JSON.parse(localStorage.getItem("name"));
+        var stringScr = JSON.parse(localStorage.getItem("value"));
 
 var saveForm = document.createElement("form");
    saveForm.setAttribute("method", "post");
@@ -76,6 +78,9 @@ function startQuiz() {
     endMessage.remove();
     endScore.remove();
     console.log(submitName);
+    console.log(stringNm);
+    console.log(savedScores);
+
     //submitName.setAttribute("type", "hidden");
 
     
@@ -229,10 +234,43 @@ function endGame(){
     console.log(currentScore)
     
     submitName.addEventListener("click", function(){
+        var savedScores = {};
+        savedInitials = initials.value;
+
+        myStorage.setItem("name", savedInitials);
+        myStorage.setItem("value", currentScore);
+
+        var stringNm = JSON.parse(localStorage.getItem("name"));
+        var stringScr = JSON.parse(localStorage.getItem("value"));
+
+        console.log(stringNm);
+
+        savedScores.JSON.parse(localStorage.getItem("value")) = stringScr
+
+
+       // for (let i = 0; i < savedScores.length; i++){
+         //   var stringNm = JSON.parse(localStorage.getItem("name"));
+           // var stringScr = JSON.parse(localStorage.getItem("value"))
+           // savedScores.savedInitials = currentScore;
+
+
+        //}
        saveForm.style.display = "none";
-       myStorage.setItem(initials.value, currentScore);
+      
         console.log(initials.value);
+
     })
+
+    var initialsDiv = document.createElement("div");
+    var scoresDiv = document.createElement("div");
+
+
+
+    for (let i = 0; i < myStorage; i++) {
+        
+        
+    }
+
     
 
     clearQuestion();
